@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>糖 · 代糖 · 主食：人体代谢互动实验室</title>
+<style>
+:root{
+  --teal:#0f766e; --teal-deep:#115e59; --teal-light:#e4f4f1; --teal-mid:#99d5cc;
+  --ink:#24303a; --muted:#64748b; --bg:#f4f7f7; --card:#ffffff; --line:#e2e8e8;
+  --amber:#9a5b0c; --amber-bg:#fdf6e7; --amber-line:#f3dfb3;
+  --violet:#5b21b6; --violet-bg:#f4efff;
+  --blue:#1d4ed8; --blue-bg:#eef4ff;
+  --green:#15803d; --green-bg:#eefaf1;
+  --red:#b91c1c; --red-bg:#fdecec;
+  --orange:#c2540a; --orange-bg:#fdf0e7;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.8;font-size:16px}
+.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);padding:10px 20px;display:flex;align-items:center;gap:10px}
+.topbar .logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#c2540a,#f59e0b);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:none}
+.topbar b{font-size:15px}
+.topbar .sub{color:var(--muted);font-size:12.5px;margin-left:2px}
+.layout{display:flex;max-width:1180px;margin:0 auto;gap:30px;padding:26px 20px 80px}
+nav.sidebar{width:225px;flex:none;position:sticky;top:72px;align-self:flex-start;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 10px}
+nav.sidebar .st{font-size:12px;color:var(--muted);padding:2px 12px 8px;letter-spacing:2px}
+nav.sidebar a{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:9px;
+  color:var(--ink);text-decoration:none;font-size:13.8px;transition:.15s}
+nav.sidebar a:hover{background:var(--teal-light)}
+nav.sidebar a.active{background:var(--teal-light);color:var(--teal-deep);font-weight:600}
+nav.sidebar a .n{width:20px;height:20px;flex:none;border-radius:6px;background:#eef1f1;color:var(--muted);
+  font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700}
+nav.sidebar a.active .n{background:var(--teal);color:#fff}
+main{flex:1;min-width:0;max-width:800px}
+section{margin-bottom:52px;scroll-margin-top:76px}
+.hero{background:linear-gradient(135deg,#c2540a 0%,#ea8c1e 55%,#f5b83d 100%);border-radius:18px;
+  color:#fff;padding:38px 36px 34px;box-shadow:0 10px 30px -12px rgba(194,84,10,.45)}
+.hero h1{margin:0 0 10px;font-size:28px;letter-spacing:.5px}
+.hero p{margin:0 0 18px;color:#fdeeda;font-size:15.5px;max-width:600px}
+.hero .chips{display:flex;flex-wrap:wrap;gap:8px}
+.hero .chips span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);
+  padding:3px 13px;border-radius:99px;font-size:12.5px}
+h2{display:flex;align-items:center;gap:12px;font-size:22px;margin:0 0 6px;letter-spacing:.5px}
+h2 .cn{width:34px;height:34px;flex:none;border-radius:10px;background:var(--orange);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800}
+.sec-sub{color:var(--muted);font-size:14px;margin:0 0 18px;padding-left:46px}
+h3{font-size:17.5px;margin:30px 0 10px;color:var(--teal-deep);display:flex;align-items:center;gap:8px}
+h3::before{content:"";width:4px;height:18px;border-radius:2px;background:var(--teal);display:inline-block;flex:none}
+p{margin:10px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:14px 0}
+.tip,.pit,.ex,.do,.sci{border-radius:12px;padding:13px 16px 13px 14px;margin:14px 0;font-size:15px;border:1px solid}
+.tip{background:var(--blue-bg);border-color:#c9dbfa}
+.pit{background:var(--amber-bg);border-color:var(--amber-line)}
+.ex{background:var(--violet-bg);border-color:#e0d3fb}
+.do{background:var(--green-bg);border-color:#bfe8cc}
+.sci{background:#f0f4f8;border-color:#d5dfea}
+.tip b,.pit b,.ex b,.do b,.sci b{display:block;margin-bottom:3px;font-size:14.5px}
+.tip b{color:var(--blue)} .pit b{color:var(--amber)} .ex b{color:var(--violet)}
+.do b{color:var(--green)} .sci b{color:#334e68}
+.tbl-wrap{overflow-x:auto;margin:14px 0}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;
+  font-size:14px;box-shadow:0 0 0 1px var(--line)}
+th{background:var(--teal-light);color:var(--teal-deep);text-align:left;padding:9px 13px;font-size:13.5px;white-space:nowrap}
+td{padding:9px 13px;border-top:1px solid #eef2f2;vertical-align:top}
+tr:nth-child(even) td{background:#fafcfb}
+.formula{background:#fbfdfd;border:1px dashed var(--teal-mid);border-radius:12px;text-align:center;
+  padding:14px 10px;margin:14px 0;font-size:17px;font-weight:600;color:var(--teal-deep);letter-spacing:1px}
+.formula small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:6px;letter-spacing:0}
+.widget{background:linear-gradient(180deg,#ffffff,#fdf8f2);border:1.5px solid #eecfa8;
+  border-radius:14px;padding:18px 20px;margin:18px 0;box-shadow:0 6px 18px -12px rgba(194,84,10,.35)}
+.w-head{font-weight:700;color:var(--orange);font-size:15.5px;margin-bottom:2px}
+.w-desc{font-size:13.8px;color:var(--muted);margin:0 0 10px}
+.widget svg text{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+.w-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 4px}
+.wbtn{border:1.5px solid var(--orange);background:#fff;color:var(--orange);border-radius:10px;
+  padding:6px 15px;font-size:13.5px;cursor:pointer;font-family:inherit;transition:.15s}
+.wbtn:hover{background:var(--orange);color:#fff}
+.wbtn.primary{background:var(--orange);color:#fff}
+.wbtn.w-tab.active{background:var(--orange);color:#fff}
+.wbtn:disabled{opacity:.45;cursor:default}
+label.ck{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;border:1.5px solid var(--line);
+  border-radius:10px;padding:5px 12px;cursor:pointer;background:#fff}
+label.ck input{accent-color:var(--orange)}
+.w-stat{background:#fff;border:1px dashed #eecfa8;border-radius:10px;padding:8px 14px;font-size:14px;margin:8px 0}
+.w-stat b{color:var(--teal-deep)}
+.w-note{font-size:13.5px;background:var(--blue-bg);border-radius:10px;padding:8px 14px;margin-top:10px}
+.w-note b{color:var(--blue)}
+.ctrl{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:14px;flex-wrap:wrap}
+.ctrl label{min-width:150px;font-weight:600}
+.ctrl .val{font-family:Consolas,monospace;color:var(--orange);font-weight:700;min-width:70px}
+input[type=range]{accent-color:var(--orange);flex:1;min-width:140px;max-width:340px}
+.big-num{font-size:36px;font-weight:800;color:var(--orange);font-family:Consolas,monospace;line-height:1.2}
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:14px 0}
+.quiz .qt{font-weight:600;margin-bottom:10px}
+.quiz .opt{display:block;width:100%;text-align:left;background:#f8fafa;border:1.5px solid var(--line);
+  border-radius:10px;padding:9px 14px;margin:7px 0;cursor:pointer;font-size:14.5px;font-family:inherit;color:var(--ink);transition:.15s}
+.quiz .opt:hover{border-color:var(--orange)}
+.quiz .opt.right{background:var(--green-bg);border-color:#4caf6d;color:var(--green);font-weight:600}
+.quiz .opt.right::after{content:" ✓";font-weight:800}
+.quiz .opt.wrong{background:var(--red-bg);border-color:#e08585;color:var(--red)}
+.quiz .opt.wrong::after{content:" ✗";font-weight:800}
+.quiz .exp{display:none;background:var(--blue-bg);border-radius:10px;padding:10px 14px;font-size:14px;margin-top:8px}
+.quiz.done .opt{cursor:default;pointer-events:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);padding:6px 2px 2px}
+.legend i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:4px;vertical-align:middle}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-top:18px;color:var(--muted);font-size:13px;text-align:center}
+@media (max-width:920px){
+  .layout{flex-direction:column}
+  nav.sidebar{position:static;width:auto;display:flex;flex-wrap:wrap;gap:2px;padding:8px}
+  nav.sidebar .st{width:100%;padding-bottom:2px}
+  nav.sidebar a{padding:6px 10px;font-size:13px}
+  .hero{padding:26px 22px}
+  h2 .cn{width:30px;height:30px}
+  .sec-sub{padding-left:0}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">糖</div>
+  <b>糖 · 代糖 · 主食代谢互动实验室</b><span class="sub">写给营养与医学学习者的碳水科学</span>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="st">目 录</div>
+  <a href="#intro" class="active"><span class="n">0</span>大局观 · 一餐碳水之旅</a>
+  <a href="#digest"><span class="n">1</span>消化吸收 · 流水线</a>
+  <a href="#glycemia"><span class="n">2</span>血糖反应 · GI 实验室</a>
+  <a href="#liver"><span class="n">3</span>体内代谢 · 果糖分流</a>
+  <a href="#sweet"><span class="n">4</span>代糖图鉴</a>
+  <a href="#staple"><span class="n">5</span>主食科学</a>
+  <a href="#myth"><span class="n">6</span>辟谣 · 科研前沿</a>
+  <a href="#quiz"><span class="n">7</span>自测一下</a>
+</nav>
+
+<main>
+
+<!-- ============ 0 大局观 ============ -->
+<section id="intro">
+  <div class="hero">
+    <h1>吃下去的糖，都去哪儿了？</h1>
+    <p>从一口米饭到一罐无糖可乐：碳水化合物的消化、吸收、代谢全景，以及代糖的科学真相。风格同《医学统计学互动实验室》——少背多玩，通俗但严谨。</p>
+    <div class="chips"><span>消化流水线</span><span>血糖曲线实验室</span><span>果糖分流图</span><span>代糖图鉴</span><span>进食顺序模拟</span><span>随堂自测</span></div>
+  </div>
+
+  <h2 style="margin-top:34px"><span class="cn">0</span>大局观：一餐碳水的完整旅程</h2>
+  <p class="sec-sub">预计 10 分钟 · 先建立全景，再看细节</p>
+
+  <p>你吃下的碳水（米饭、面条、水果、奶茶里的糖）在体内走的是同一条主干道，但不同糖分岔口不同。先记住三个"主角单糖"——<b>一切碳水最终都被拆成它们再被吸收</b>：</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>主角</th><th>从哪来</th><th>吸收方式</th><th>吸收后第一站</th></tr>
+    <tr><td><b>葡萄糖</b></td><td>淀粉、蔗糖的一半、直接吃糖</td><td>主动转运（耗能，SGLT1）</td><td>全身细胞即时供能 + 肝</td></tr>
+    <tr><td><b>果糖</b></td><td>蔗糖的另一半、水果、蜂蜜、含糖饮料（HFCS）</td><td>易化扩散（GLUT5，不耗能）</td><td><b>几乎全进肝</b>，不走"胰岛素开关"</td></tr>
+    <tr><td><b>半乳糖</b></td><td>乳糖（奶）的一半</td><td>主动转运（同葡萄糖）</td><td>肝，几乎全部转化为葡萄糖利用</td></tr>
+  </table></div>
+
+  <div class="card">
+    <p style="margin-top:0"><b>全景路线图（背下这条主干线）：</b></p>
+    <p style="font-size:15px">口腔（唾液淀粉酶开始拆淀粉）→ 胃（基本不消化碳水）→ 小肠腔（胰淀粉酶接力）→ 肠壁刷状缘（酶拆成单糖）→ <b>小肠上皮吸收入血</b> → 门静脉 → <b>肝</b>（分诊中心）→ 三个去向：① 即时供能 ② 存成糖原（肝 ~100g、肌肉 ~400g，共约 500g，相当于 2000 kcal 电池）③ 装不下了→转化为脂肪长期储存。</p>
+  </div>
+
+  <div class="tip"><b>💡 直觉理解：胰岛素是"血糖管理员"</b>
+  血糖升高 → 胰岛素分泌 → 通知细胞"快把糖拿去烧/存起来"。葡萄糖和半乳糖会显著触发这个开关；<b>果糖几乎不触发</b>（这就是它"GI 低"的原因），但它绕过开关直接在肝里排队加工——好事坏事都出在这里（第 3 章细说）。</div>
+
+  <div class="do"><b>🧪 本站怎么用</b>
+  每章都有可动手的互动实验：拖滑块、点按钮、看曲线怎么变。全部内容基于公认生理学与营养学结论；有争议的地方（如代糖与心血管）会明确标注证据强度，不让你把"假说"当"结论"。</div>
+</section>
+
+<!-- ============ 1 消化吸收 ============ -->
+<section id="digest">
+  <h2><span class="cn">1</span>消化吸收：碳水拆解流水线</h2>
+  <p class="sec-sub">预计 20 分钟 · 人体只能吸收单糖，其余全是"预制件"</p>
+
+  <p>关键原则：<b>小肠只吸收葡萄糖、果糖、半乳糖这三种单糖</b>。蔗糖、乳糖、淀粉都必须先被拆到单糖才能过墙。这条流水线长什么样？自己点开看：</p>
+
+  <div class="widget">
+    <div class="w-head">🧪 互动实验室：碳水消化流水线（逐步走）</div>
+    <p class="w-desc">以一口米饭（淀粉）为例，点"下一步"看它在消化道里的六站旅程。</p>
+    <svg id="digSvg" viewBox="0 0 620 210"></svg>
+    <div class="w-row">
+      <button class="wbtn" id="digPrev">← 上一步</button>
+      <button class="wbtn primary" id="digNext">下一步 →</button>
+      <button class="wbtn" id="digReset">↺ 重置</button>
+      <span class="w-stat" style="margin:0" id="digStep"></span>
+    </div>
+    <div class="w-stat" id="digText"></div>
+    <div class="w-note">👉 记忆锚点：<b>口腔只起个头，胃是碳水"中转站"（不干活），真正的主力全在小肠</b>——所以"细嚼慢咽"对血糖的意义远没有"吃了多少、精不精"大。</div>
+  </div>
+
+  <h3>1.2 过墙的三扇门：转运体</h3>
+  <p>单糖到了肠壁，要通过"转运体"（细胞膜上的运输蛋白）才能进入血液。三种糖走不同的门——这也是考点和科研里的常见变量：</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>门（转运体）</th><th>运谁</th><th>方式</th><th>特点</th></tr>
+    <tr><td><b>SGLT1</b></td><td>葡萄糖、半乳糖</td><td>主动转运（钠协同泵，耗能）</td><td>就算血中糖已很高，仍能把肠腔里的糖"顶"进去——所以喝糖水血糖必升</td></tr>
+    <tr><td><b>GLUT5</b></td><td>果糖</td><td>易化扩散（不耗能）</td><td>容量有限：一次吃太多果糖，吸收不完全→肠道渗透性腹泻（这就是"蜂蜜吃多拉肚子"的原因之一）</td></tr>
+    <tr><td><b>GLUT2</b></td><td>三种都运</td><td>易化扩散</td><td>高糖膳食时顶班加速转运；也负责把糖从肠上皮细胞送进血液</td></tr>
+  </table></div>
+
+  <div class="tip"><b>💡 直觉理解：乳糖不耐受是怎么来的</b>
+  刷状缘上的<b>乳糖酶</b>负责拆乳糖。全球约 2/3 成年人乳糖酶活性随年龄下降（遗传决定，东亚人群比例更高）→ 乳糖拆不动 → 留在肠腔里"拉水+被细菌发酵产气" → 喝奶后腹胀、腹泻。对策不是戒奶，而是：酸奶/奶酪（发酵后乳糖大减）、零乳糖奶、随餐少量多次。</div>
+
+  <div class="sci"><b>🔬 科研视角</b>
+  SGLT1 不只在肠上——肾脏的 SGLT2 是降糖新药"列净类"（SGLT2 抑制剂）的靶点：让肾把葡萄糖"漏"回尿里排掉。肠道 SGLT1 也有在研药物。营养学与药理学的边界，就在这些转运体上。</div>
+</section>
+
+<!-- ============ 2 血糖反应 ============ -->
+<section id="glycemia">
+  <h2><span class="cn">2</span>血糖反应：同是碳水，曲线大不同</h2>
+  <p class="sec-sub">预计 25 分钟 · GI 不是玄学，是曲线的形状</p>
+
+  <p>同样 50g 碳水，白米饭和苹果吃下去的血糖曲线完全不同。<b>GI（血糖生成指数）</b>衡量的就是这种形状差异。勾选下面的食物，看叠加曲线（示意图，基于各食物 GI 与典型峰时绘制）：</p>
+
+  <div class="widget">
+    <div class="w-head">🧪 互动实验室：血糖曲线叠加器</div>
+    <p class="w-desc">勾选食物叠加显示餐后 2 小时血糖曲线（空腹起点 90 mg/dL 示意），右侧显示各自 GI。</p>
+    <svg id="giSvg" viewBox="0 0 620 300"></svg>
+    <div class="w-row" id="giChecks"></div>
+    <div class="w-stat" id="giStat"></div>
+    <div class="w-note">👉 三条规律：① <b>GI 越高，峰越陡越高</b>（葡萄糖是天花板）；② <b>果糖的曲线又低又平</b>——因为不触发胰岛素、且主要进肝处理，但"血糖稳"≠"没负担"（第 3 章反转）；③ 碳水总量同样重要：GI 只管"质"，<b>GL = GI × 碳水克数 ÷ 100</b> 才是一餐的真实负荷——半个西瓜和半碗米饭，谁的血糖负荷更高？算算就知道。</div>
+  </div>
+
+  <div class="formula">GL = GI × 该食物碳水克数 ÷ 100
+    <small>GI 看"质"，GL 看"质 × 量"。一餐总 GL ≥ 20 为高负荷，≤ 10 为低负荷</small>
+  </div>
+
+  <div class="tbl-wrap"><table>
+    <tr><th>食物（50g 碳水当量）</th><th>GI（典型值）</th><th>分级</th><th>一句话点评</th></tr>
+    <tr><td>葡萄糖（参照物）</td><td>100</td><td>—</td><td>定义 GI 的尺子</td></tr>
+    <tr><td>白米饭</td><td>≈ 83</td><td>高</td><td>高 GI 被低估的主食；放凉一点或加豆杂粮可降</td></tr>
+    <tr><td>白面包</td><td>≈ 75</td><td>高</td><td>发酵+精细研磨，淀粉好消化</td></tr>
+    <tr><td>全麦面包</td><td>≈ 55~70</td><td>中</td><td>看全麦比例与研磨粗细，差别很大</td></tr>
+    <tr><td>煮土豆</td><td>≈ 78~85</td><td>高</td><td>压成泥 GI 更高；冷土豆因抗性淀粉下降</td></tr>
+    <tr><td>苹果</td><td>≈ 36</td><td>低</td><td>果糖占比高 + 膳食纤维 + 咀嚼慢</td></tr>
+    <tr><td>果糖</td><td>≈ 19~25</td><td>低</td><td>低 GI 但高摄入伤肝（见第 3 章）</td></tr>
+  </table></div>
+
+  <div class="pit"><b>⚠️ 两个常见误读</b>
+  ① "低 GI = 随便吃"：GI 不管量，西瓜 GI≈72 但一块西瓜的碳水很少，GL 其实低；而白米饭 GI 高且一吃就是一大碗，GL 才是大头。<br>
+  ② "GI 是食物常数"：同种食物因成熟度、加工、烹饪时间、搭配、甚至个体菌群不同而波动——因此比较的是<b>量级</b>，别背精确到个位的表。</div>
+
+  <div class="sci"><b>🔬 科研视角：GI 的个体差异是研究热点</b>
+  以色列 PREDICT 研究（Cell 2020 等）发现：同一食物在不同人身上的血糖反应差异可达数倍，肠道菌群是重要调节因素。这意味着"查表吃饭"只是起点，个性化营养（personalized nutrition）才是这个领域正在跑的方向。</div>
+</section>
+
+<!-- ============ 3 体内代谢 ============ -->
+<section id="liver">
+  <h2><span class="cn">3</span>体内代谢：葡萄糖走大路，果糖抄小道</h2>
+  <p class="sec-sub">预计 25 分钟 · "喝糖不升胰岛素"背后藏着什么</p>
+
+  <p>吸收入血后，葡萄糖与果糖的处境完全不同。切换下面的开关，看两条路线的分流：</p>
+
+  <div class="widget">
+    <div class="w-head">🧪 互动实验室：葡萄糖 vs 果糖 分流图</div>
+    <p class="w-desc">点击切换两种糖，看它们入血后的去向差异（简化通路图，关键酶与器官已标注）。</p>
+    <div class="w-row" style="margin-top:2px">
+      <button class="wbtn w-tab active" id="metGlu">葡萄糖路线</button>
+      <button class="wbtn w-tab" id="metFru">果糖路线</button>
+    </div>
+    <svg id="metSvg" viewBox="0 0 620 280"></svg>
+    <div class="w-stat" id="metText"></div>
+    <div class="w-note">👉 核心差异一句话：<b>葡萄糖进门有"保安"（磷酸果糖激酶 PFK，受胰岛素/能量状态调控，进得慢、可调控）；果糖走小门（果糖激酶，不受能量状态管），在肝内一路狂奔</b>——多余的快进快出，转身就变成甘油三酯和尿酸的原料。</div>
+  </div>
+
+  <div class="ex"><b>📋 一个经典对照实验说明了问题</b>
+  Stanhope 等（J Clin Invest 2009）：给超重者连续 10 周每日加餐 25% 热量的含糖饮料——<b>果糖组</b>内脏脂肪增加更明显、甘油三酯显著升高、胰岛素敏感性下降；<b>葡萄糖组</b>这些变化轻得多。同样的热量，不同的糖，代谢后果不同——这是"果糖过量的代谢独特性"的直接证据。</div>
+
+  <div class="tip"><b>💡 那水果还能吃吗？</b>
+  能，而且推荐。完整水果的果糖<b>剂量小、纤维多、咀嚼慢、饱腹感强</b>——一天 2~3 个拳头的量，果糖总量约 15~30g，肝处理起来毫无压力。真正的问题剂量来自<b>液态糖</b>：一瓶 500ml 含糖饮料 ≈ 50~60g 糖（其中约一半是果糖），几分钟灌下去，等于让肝"加班"。《中国居民膳食指南》建议添加糖每天 &lt; 50g，最好 &lt; 25g。</div>
+
+  <div class="grid">
+    <div class="mini"><b>葡萄糖的去向优先级</b><div class="eg">① 细胞即时氧化供能（大脑每天独占 ~120g）② 补肝糖原（维持血糖的"蓄水池"）③ 补肌糖原（运动电池）④ 还有富余 → 转脂肪（DNL 脂肪从头合成）</div></div>
+    <div class="mini"><b>果糖的去向现实</b><div class="eg">小肠处理一点 → 剩下几乎全进肝 → 部分转葡萄糖/糖原，但过量时<b>绕过限速直接冲向 DNL → 肝内脂肪 + VLDL + 尿酸</b>。长期高剂量与 NAFLD（脂肪肝）、高甘油三酯相关</div></div>
+  </div>
+</section>
+
+<!-- ============ 4 代糖 ============ -->
+<section id="sweet">
+  <h2><span class="cn">4</span>代糖图鉴：甜而不糖，真的吗</h2>
+  <p class="sec-sub">预计 30 分钟 · 按证据说话，包括争议</p>
+
+  <p>代糖（非糖甜味剂）分三大家族：糖醇、人工合成、天然提取。点下面的按钮看每一种的档案：</p>
+
+  <div class="widget">
+    <div class="w-head">🧪 互动实验室：代糖档案查询器</div>
+    <p class="w-desc">点选代糖名称，查看甜度倍数、热量、升血糖、安全性与注意事项。</p>
+    <div class="w-row" id="swBtns" style="margin-bottom:6px"></div>
+    <div class="w-stat" id="swDetail" style="min-height:96px"></div>
+    <div class="w-note">👉 读档案时盯三列：<b>甜度倍数</b>（决定用量多微少）、<b>热量</b>（决定是否真能"零卡"）、<b>升血糖</b>（决定糖尿病人能不能用）。最后看"备注"里的争议——本站不替你下结论，只标证据强度。</div>
+  </div>
+
+  <div class="tbl-wrap"><table>
+    <tr><th>家族</th><th>共同点</th><th>代表成员</th><th>家族级提醒</th></tr>
+    <tr><td><b>糖醇</b></td><td>结构介于糖与醇之间，部分吸收</td><td>木糖醇、赤藓糖醇、麦芽糖醇</td><td>过量（尤其山梨醇/麦芽糖醇）渗透性腹泻；木糖醇对狗剧毒</td></tr>
+    <tr><td><b>人工合成</b></td><td>化学合成，甜度极高用量极微</td><td>阿斯巴甜、三氯蔗糖、安赛蜜、糖精</td><td>各国批准限量内使用视为安全；个别有特殊禁忌（阿斯巴甜—苯丙酮尿症）</td></tr>
+    <tr><td><b>天然提取</b></td><td>植物来源</td><td>甜叶菊糖苷、罗汉果甜苷、阿洛酮糖</td><td>阿洛酮糖是"稀有糖"，近年获批，几乎不升血糖</td></tr>
+  </table></div>
+
+  <div class="sci"><b>🔬 科研前沿：代糖的三大争议（按证据强度排序）</b>
+  ① <b>体重控制是否有效</b>：WHO 2023 发布条件性建议——<b>不建议</b>长期使用非糖甜味剂来控制体重（依据多为观察性研究，证据确定性低；RCT 显示短期替代有助于减糖减重，但长期获益不明确）。<br>
+  ② <b>肠道菌群个体化反应</b>：Suez 等（Cell 2014 / Cell 2022）发现部分人工甜味剂（糖精、三氯蔗糖）可改变部分个体菌群并引起个体化血糖反应——机制研究阶段，人体证据尚不一致。<br>
+  ③ <b>赤藓糖醇与心血管事件</b>：Witkowski 等（Nature Medicine 2023）发现血中赤藓糖醇水平与心梗/卒中风险相关——但赤藓糖醇本身也是人体代谢产物，<b>关联 ≠ 因果</b>，该发现适用人群（高危心血管病者）与因果方向都待验证。后续研究正在跟进。</div>
+
+  <div class="pit"><b>⚠️ 常见坑</b>
+  ① "无糖=不长胖"：代糖饮料本身近零卡，但甜味可能维持嗜甜偏好、部分人会代偿性多吃——**行为补偿**才是体重结果的变量；<br>
+  ② "0 蔗糖=无糖"：配料表上的果葡糖浆、浓缩果汁、蜂蜜都是添加糖；<br>
+  ③ 麦芽糖醇 GI 其实不低（≈35~52），糖尿病人大量吃无糖巧克力照样升血糖+腹泻；<br>
+  ④ 阿斯巴甜标注"含苯丙氨酸"不是质量缺陷，而是苯丙酮尿症（PKU）患者的法定警示。</div>
+</section>
+
+<!-- ============ 5 主食 ============ -->
+<section id="staple">
+  <h2><span class="cn">5</span>主食科学：吃法比种类更神</h2>
+  <p class="sec-sub">预计 25 分钟 · 同一碗饭，三种吃法三种曲线</p>
+
+  <p>主食的重要性不在"吃不吃"，而在<b>怎么吃、怎么配</b>。先用模拟器感受两个最有研究证据的技巧：</p>
+
+  <div class="widget">
+    <div class="w-head">🧪 互动实验室：一餐血糖模拟器（进食顺序 × 搭配）</div>
+    <p class="w-desc">同一份餐（米饭+青菜+鸡胸肉），只改变吃法。曲线为基于研究趋势的示意图，非个体实测。</p>
+    <div class="ctrl"><label>进食顺序</label>
+      <button class="wbtn w-tab active" id="ordA" style="min-width:110px">先吃主食</button>
+      <button class="wbtn w-tab" id="ordB" style="min-width:130px">先菜肉，后主食</button>
+    </div>
+    <div class="ctrl"><label>是否配含糖饮料</label>
+      <button class="wbtn w-tab" id="drkN" style="min-width:64px">否</button>
+      <button class="wbtn w-tab active" id="drkY" style="min-width:64px">是</button>
+    </div>
+    <svg id="mealSvg" viewBox="0 0 620 290"></svg>
+    <div class="w-stat" id="mealStat"></div>
+    <div class="w-note">👉 <b>先吃蔬菜和蛋白质、最后吃主食</b>，餐后血糖峰值可明显降低（Shukla 等, Diabetes Care 2017 RCT：蔬→蛋白→碳水顺序使峰值降低、早时相胰岛素需求更平缓）；机制：纤维与蛋白延缓胃排空、减缓淀粉消化速率。<b>含糖饮料是叠加在一切之上的"尖峰发生器"</b>——液态糖消化吸收几乎无阻力。</div>
+  </div>
+
+  <h3>5.2 精制 vs 全谷物：差的不只是纤维</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th></th><th>精制谷物（白米白面）</th><th>全谷物（糙米/燕麦/全麦）</th></tr>
+    <tr><td>结构</td><td>只剩胚乳（纯淀粉）</td><td>麸皮+胚芽+胚乳齐全</td></tr>
+    <tr><td>纤维与微量营养</td><td>加工中丢失大部分 B 族、镁、纤维</td><td>保留；纤维包裹淀粉→消化减慢</td></tr>
+    <tr><td>血糖形状</td><td>高 GI、峰陡</td><td>GI 低 10~20，峰缓</td></tr>
+    <tr><td>证据</td><td>—</td><td>长期全谷物摄入与更低 2 型糖尿病、心血管风险相关（队列研究一致性较强）</td></tr>
+  </table></div>
+
+  <div class="tip"><b>💡 抗性淀粉：给米饭"回个炉"</b>
+  淀粉煮熟后冷却，部分会"回生"成<b>抗性淀粉（RS3）</b>——它抵抗小肠消化，进到大肠当"益生元"被菌群发酵。实际应用：米饭/土豆<b>煮熟后冷藏过夜再彻底复热</b>，GI 有所下降，口感损失不大。这是少数"放凉了反而更好"的营养技巧。</div>
+
+  <div class="do"><b>🧪 实操清单（按证据强度排序）</b>
+  ① 主食定量，粗细搭配（全谷物占 1/3~1/2）；② 先菜肉后主食的进食顺序；③ 主食放凉回炉利用抗性淀粉；④ 餐后步行 10~15 分钟（肌肉直接消耗血糖，削峰明显）；⑤ 含糖饮料换成无糖或白水——若用代糖过渡，见第 4 章证据权衡。</div>
+</section>
+
+<!-- ============ 6 辟谣 + 前沿 ============ -->
+<section id="myth">
+  <h2><span class="cn">6</span>辟谣速查 · 科研前沿</h2>
+  <p class="sec-sub">预计 15 分钟 · 被问最多的四个问题 + 正在发生的研究</p>
+
+  <div class="card">
+    <p style="margin-top:0"><b>Q1：无糖饮料真的不会让人胖吗？</b><br>
+    代糖本身几乎零热量，RCT 中用无糖饮料替代含糖饮料<b>体重与肝脏脂肪指标轻度改善</b>（如 Nesvacil 2022 等短期 RCT）。但观察性研究中常喝无糖饮料的人反而更胖——这是<b>反向因果</b>（胖的人才去喝）+ 代偿性进食的干扰。结论：作为"戒糖的过渡工具"合理，作为"敞开吃的心安丸"不行。</p>
+    <p><b>Q2：果糖是不是毒药？</b><br>
+    剂量与载体决定毒性。来自完整水果的果糖（15~30g/天）无证据有害；来自含糖饮料的果糖（50g+/次）长期高剂量与脂肪肝、高甘油三酯相关。妖魔化"果糖"本身、却继续喝饮料，是本末倒置。</p>
+    <p><b>Q3：糖会上瘾吗？</b><br>
+    "糖成瘾"在人类中的证据不足（WHO/多数综述不认可"成瘾"定性）：动物模型的成瘾行为多由间歇性投喂模式造成，人类随机喂养实验未复现。更准确的说法是：<b>甜味偏好是天性，高可得性+液态形式让人容易过量</b>。</p>
+    <p style="margin-bottom:0"><b>Q4：粗粮是不是越多越好？</b><br>
+    不是。突然大量加粗粮 → 胃肠胀气、矿物质吸收受植酸影响；老年人/胃肠术后人群需渐进。全谷物占主食 1/3~1/2 是多数指南的稳妥区间。</p>
+  </div>
+
+  <div class="sci"><b>🔬 这个领域正在研究什么（可当选题雷达）</b>
+  ① <b>代糖 × 肠道菌群</b>：个体化血糖反应的因果机制（Suez 线）；② <b>赤藓糖醇/木糖醇</b>与心血管事件的因果验证（Nature Medicine 2023 后续队列与机制研究）；③ <b>果糖与 NAFLD</b>：果糖激酶通路、肝脏 DNL 定量示踪；④ <b>个性化营养</b>：CGM（动态血糖仪）+菌群建模预测餐后血糖（PREDICT、DayTwo 线）；⑤ <b>抗性淀粉干预</b>：对血糖与菌群产物（短链脂肪酸）的 RCT；⑥ 阿洛酮糖等新型稀有糖的长期安全性与代谢效应。</div>
+</section>
+
+<!-- ============ 7 自测 ============ -->
+<section id="quiz">
+  <h2><span class="cn">7</span>自测一下</h2>
+  <p class="sec-sub">6 道题，点选项立即判分并给讲解。</p>
+
+  <div class="quiz"><div class="qt">1. 小肠吸收葡萄糖的主要转运体是：</div>
+    <button class="opt">GLUT5（易化扩散）</button>
+    <button class="opt" data-ok="1">SGLT1（钠协同主动转运）</button>
+    <button class="opt">GLUT4（胰岛素依赖）</button>
+    <button class="opt">GLUT2（易化扩散）</button>
+    <div class="exp">✅ 肠道：葡萄糖/半乳糖走 SGLT1（主动、耗能），果糖走 GLUT5。GLUT4 是肌肉脂肪细胞上受胰岛素调动的门（GLUT2 主要在肝和高糖顶班场景）。</div>
+  </div>
+
+  <div class="quiz"><div class="qt">2. 果糖 GI 很低（≈20）的主要原因是：</div>
+    <button class="opt" data-ok="1">果糖几乎不刺激胰岛素分泌，且主要进肝代谢</button>
+    <button class="opt">果糖热量比葡萄糖低</button>
+    <button class="opt">果糖吸收速度比葡萄糖快</button>
+    <button class="opt">果糖是甜度最高的天然糖</button>
+    <div class="exp">✅ 果糖不走"血糖-胰岛素"大路，入血后主要进肝处理，所以血糖曲线又低又平。但"低 GI"≠"无负担"——过量果糖在肝内转向脂肪合成与尿酸（第 3 章）。</div>
+  </div>
+
+  <div class="quiz"><div class="qt">3. 苯丙酮尿症（PKU）患者需要严格避免的代糖是：</div>
+    <button class="opt">赤藓糖醇</button>
+    <button class="opt">三氯蔗糖</button>
+    <button class="opt" data-ok="1">阿斯巴甜</button>
+    <button class="opt">甜叶菊糖苷</button>
+    <div class="exp">✅ 阿斯巴甜在体内代谢产生苯丙氨酸，PKU 患者无法正常代谢它，所以产品必须标注"含苯丙氨酸"。</div>
+  </div>
+
+  <div class="quiz"><div class="qt">4. 同一碗白米饭，以下哪种吃法餐后血糖反应最低？</div>
+    <button class="opt">趁热大口快速吃完</button>
+    <button class="opt" data-ok="1">先吃青菜和鸡胸肉，最后吃米饭</button>
+    <button class="opt">配一瓶含糖饮料</button>
+    <button class="opt">把米饭打糊喝下去</button>
+    <div class="exp">✅ 蔬菜纤维+蛋白质延缓胃排空、减慢淀粉消化（Shukla 2017 RCT）。含糖饮料是尖峰叠加；打糊/煮烂让淀粉更好消化，血糖更高；快速进食同样更糟。</div>
+  </div>
+
+  <div class="quiz"><div class="qt">5. 关于"果糖伤肝"，最准确的表述是：</div>
+    <button class="opt">任何剂量的果糖都会导致脂肪肝</button>
+    <button class="opt" data-ok="1">长期大剂量（尤其液态糖）果糖与脂肪肝相关，水果中的果糖剂量无证据有害</button>
+    <button class="opt">果糖只在糖尿病患者伤肝</button>
+    <button class="opt">水果吃越多越好，无需限量</button>
+    <div class="exp">✅ 剂量与载体决定毒性：完整水果的果糖剂量小、纤维多、饱腹感强；问题出在含糖饮料级别的大剂量快摄入。指南建议添加糖每天 &lt;50g、最好 &lt;25g。</div>
+  </div>
+
+  <div class="quiz"><div class="qt">6. 米饭煮熟后冷藏过夜再复热，血糖反应有所下降，主要因为：</div>
+    <button class="opt">冷藏杀死了淀粉</button>
+    <button class="opt" data-ok="1">部分淀粉回生为抗性淀粉，抵抗小肠消化</button>
+    <button class="opt">冷藏降低了米饭的总碳水含量</button>
+    <button class="opt">复热破坏了葡萄糖分子</button>
+    <div class="exp">✅ 回生形成 RS3 型抗性淀粉：小肠不消化 → 到大肠被菌群发酵产短链脂肪酸。碳水总量不变，但"可消化吸收"的部分减少。</div>
+  </div>
+</section>
+
+<footer>本站为教学用简化模型，曲线为基于文献趋势的示意图 · 个体反应存在差异，疾病状态请咨询临床营养师 · 用 ZCode 生成 · 2026</footer>
+
+</main>
+</div>
+
+<script>
+function $id(x){return document.getElementById(x);}
+// ================= 1. 消化流水线 =================
+const DIG=[
+ {t:'口腔 · 咀嚼',e:'唾液 α-淀粉酶开始拆淀粉（约 5% 的工作量），米饭越嚼越甜就是麦芽糖出现了。蔗糖、乳糖在口腔不发生变化。',art:[[60,105,60,40,'#f0b429'],'淀粉颗粒',[[70,80],[90,70],[110,88]]]},
+ {t:'胃 · 中转',e:'胃酸让唾液淀粉酶失活，胃本身没有消化碳水的能力——碳水只是"路过"。蛋白质和脂肪才是胃的主战场。',art:[[150,105,60,40,'#94a3ab'],'暂存搅拌',[]]},
+ {t:'小肠腔 · 主力',e:'胰 α-淀粉酶大量注入：淀粉 → 糊精、麦芽糖、麦芽三糖。注意产物还是"双糖/寡糖"，不能吸收。',art:[[240,105,60,40,'#0d9488'],'胰淀粉酶',[[252,85],[272,72],[292,90]]]},
+ {t:'肠壁刷状缘 · 精加工',e:'微绒毛膜上的酶（麦芽糖酶-葡糖淀粉酶、蔗糖酶-异麦芽糖酶、乳糖酶）把双糖拆成最终单糖：麦芽糖→2葡萄糖；蔗糖→葡萄糖+果糖；乳糖→葡萄糖+半乳糖。',art:[[330,105,60,40,'#14b8a6'],'膜酶精拆',[[342,85],[362,72],[382,90]]]},
+ {t:'过墙吸收',e:'三种单糖走不同的门进入肠上皮细胞再入血：葡萄糖/半乳糖→SGLT1（主动耗能）；果糖→GLUT5（扩散）；基底侧 GLUT2 送入血液。',art:[[420,105,60,40,'#6366f1'],'SGLT1/GLUT5',[[432,85],[452,72],[472,90]]]},
+ {t:'门静脉 → 肝',e:'单糖经毛细血管汇入门静脉，第一站全部送到肝。肝是"分诊中心"：即时用、存糖原、多则转脂肪——这就是下一章的主角。',art:[[510,105,60,40,'#c2540a'],'门静脉入肝',[[522,85],[542,72],[562,90]]]}
+];
+let digIdx=0;
+function digDraw(){
+  let h='';
+  h+='<line x1="20" y1="105" x2="600" y2="105" stroke="#e2ddd2" stroke-width="3"/>';
+  DIG.forEach((s,i)=>{
+    const x=s.art[0],c=s.art[2];
+    const done=i<digIdx, cur=i===digIdx;
+    h+='<rect x="'+x+'" y="'+(105-38)+'" width="56" height="34" rx="8" fill="'+(cur?c:(done?c:'#e8e3d8'))+'" opacity="'+(cur?'1':(done?'0.45':'0.9'))+'"/>';
+    h+='<text x="'+(x+28)+'" y="'+(105-16)+'" text-anchor="middle" font-size="12.5" fill="'+(cur||done?'#fff':'#94a3ab')+'" font-weight="700">'+(i+1)+'</text>';
+    h+='<text x="'+(x+28)+'" y="165" text-anchor="middle" font-size="12" fill="'+(cur?'#c2540a':(done?'#64748b':'#aab3b8'))+'">'+s.t.split(' · ')[0]+'</text>';
+  });
+  h+='<text x="310" y="200" text-anchor="middle" font-size="13" fill="#64748b">'+DIG[digIdx].t+'</text>';
+  $id('digSvg').innerHTML=h;
+  $id('digStep').innerHTML='<b>'+(digIdx+1)+' / 6</b>';
+  $id('digText').innerHTML=DIG[digIdx].e;
+  $id('digPrev').disabled=digIdx===0;
+  $id('digNext').disabled=digIdx===DIG.length-1;
+}
+$id('digNext').addEventListener('click',()=>{if(digIdx<DIG.length-1){digIdx++;digDraw();}});
+$id('digPrev').addEventListener('click',()=>{if(digIdx>0){digIdx--;digDraw();}});
+$id('digReset').addEventListener('click',()=>{digIdx=0;digDraw();});
+digDraw();
+
+// ================= 2. 血糖曲线 =================
+const FOODS=[
+ {n:'葡萄糖',gi:100,c:'#dc2626',A:68,tp:30,k:2.2,on:true},
+ {n:'白米饭',gi:83,c:'#c2540a',A:55,tp:45,k:2.4,on:true},
+ {n:'白面包',gi:75,c:'#e8952f',A:50,tp:35,k:2.2,on:false},
+ {n:'全麦面包',gi:62,c:'#8a6d1a',A:42,tp:50,k:2.4,on:false},
+ {n:'苹果',gi:36,c:'#15803d',A:24,tp:40,k:2.6,on:false},
+ {n:'果糖',gi:20,c:'#5b21b6',A:13,tp:45,k:2.6,on:false}
+];
+const BASE=90, GY=v=>258-(v-70)*238/100, GX=t=>46+t*540/120;
+function giCurve(A,tp,k,t){return BASE+A*Math.pow(t/tp,k)*Math.exp(k*(1-t/tp));}
+function giDraw(){
+  const checks=$id('giChecks');
+  if(!checks.dataset.built){
+    checks.innerHTML=FOODS.map((f,i)=>'<label class="ck"><input type="checkbox" data-i="'+i+'" '+(f.on?'checked':'')+'>'+f.n+'</label>').join('');
+    checks.addEventListener('change',e=>{const i=+e.target.dataset.i;FOODS[i].on=e.target.checked;giDraw();});
+    checks.dataset.built='1';
+  }
+  let h='';
+  for(let v=80;v<=160;v+=20){h+='<line x1="46" y1="'+GY(v)+'" x2="586" y2="'+GY(v)+'" stroke="#eeeae2"/><text x="8" y="'+(GY(v)+4)+'" font-size="11.5" fill="#94a3ab">'+v+'</text>';}
+  h+='<line x1="46" y1="258" x2="586" y2="258" stroke="#94a3ab" stroke-width="1.5"/>';
+  h+='<line x1="46" y1="20" x2="46" y2="258" stroke="#94a3ab" stroke-width="1.5"/>';
+  h+='<line x1="'+GX(0)+'" y1="'+GY(90)+'" x2="'+GX(120)+'" y2="'+GY(90)+'" stroke="#c8d4d2" stroke-dasharray="5 4"/>';
+  for(let m=0;m<=120;m+=30){h+='<text x="'+GX(m)+'" y="276" text-anchor="middle" font-size="11.5" fill="#64748b">'+m+'分钟</text>';}
+  FOODS.forEach(f=>{
+    if(!f.on)return;
+    let d='';
+    for(let t=0;t<=120;t+=2){d+=(d?'L':'M')+GX(t).toFixed(1)+','+GY(giCurve(f.A,f.tp,f.k,t)).toFixed(1);}
+    h+='<path d="'+d+'" fill="none" stroke="'+f.c+'" stroke-width="2.6"/>';
+  });
+  h+='<text x="52" y="32" font-size="12.5" fill="#64748b">血糖 (mg/dL)</text>';
+  h+='<text x="560" y="'+(GY(90)-6)+'" text-anchor="end" font-size="11.5" fill="#94a3ab">空腹基线 90</text>';
+  $id('giSvg').innerHTML=h;
+  const on=FOODS.filter(f=>f.on);
+  $id('giStat').innerHTML=on.length?('当前叠加：'+on.map(f=>'<b style="color:'+f.c+'">'+f.n+' GI≈'+f.gi+'</b>').join(' · ')):'👆 勾选上方食物显示曲线';
+}
+giDraw();
+
+// ================= 3. 代谢分流 =================
+function metDraw(mode){
+  $id('metGlu').classList.toggle('active',mode==='glu');
+  $id('metFru').classList.toggle('active',mode==='fru');
+  let h='';
+  h+='<rect x="10" y="105" width="90" height="46" rx="9" fill="#e8eef0" stroke="#c3d4d4"/><text x="55" y="124" text-anchor="middle" font-size="13" fill="#24303a">小肠吸收</text><text x="55" y="141" text-anchor="middle" font-size="11" fill="#64748b">门静脉</text>';
+  h+='<rect x="150" y="105" width="110" height="46" rx="9" fill="#c2540a"/><text x="205" y="124" text-anchor="middle" font-size="13.5" fill="#fff" font-weight="700">肝</text><text x="205" y="141" text-anchor="middle" font-size="11" fill="#fdeeda">分诊中心</text>';
+  h+='<path d="M100,128 L150,128" stroke="#94a3ab" stroke-width="2.5" marker-end="url(#arr)"/>';
+  h+='<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="none" stroke="#94a3ab" stroke-width="1.5"/></marker></defs>';
+  if(mode==='glu'){
+    h+='<rect x="10" y="30" width="90" height="42" rx="9" fill="#0d9488"/><text x="55" y="48" text-anchor="middle" font-size="12.5" fill="#fff">葡萄糖</text><text x="55" y="64" text-anchor="middle" font-size="10.5" fill="#d9f2ee">走大路</text>';
+    h+='<path d="M55,72 L55,105" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arrg)"/><defs><marker id="arrg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="none" stroke="#0d9488" stroke-width="1.5"/></marker></defs>';
+    const boxes=[
+      [320,25,'全身细胞氧化供能','#15803d','大脑每天独占 ~120g'],
+      [320,105,'肌肉/肝 → 糖原','#1d4ed8','肝 ~100g + 肌 ~400g'],
+      [320,185,'胰岛素参与调控','#7c3aed','血糖↑ → 胰岛素↑ → 通知储存'],
+      [320,230,'富余 → 转脂肪 (DNL)','#c2540a','有 PFK 限速"保安"，进得慢']
+    ];
+    boxes.forEach(b=>{
+      h+='<rect x="'+b[0]+'" y="'+b[1]+'" width="240" height="38" rx="9" fill="#fff" stroke="'+b[3]+'" stroke-width="1.6"/>';
+      h+='<text x="'+(b[0]+14)+'" y="'+(b[1]+16)+'" font-size="13" fill="'+b[3]+'" font-weight="700">'+b[2]+'</text>';
+      h+='<text x="'+(b[0]+14)+'" y="'+(b[1]+32)+'" font-size="11" fill="#64748b">'+b[4]+'</text>';
+      h+='<path d="M260,'+Math.min(128,b[1]+19)+' L320,'+(b[1]+19)+'" stroke="'+b[3]+'" stroke-width="2" marker-end="url(#arrg)"/>';
+    });
+    $id('metText').innerHTML='<b>葡萄糖：</b>全程有"胰岛素-能量状态"调控（限速酶 PFK 把关）。先供能、再补糖原、有富余才转脂肪——进料速度可控，是身体熟悉的节奏。';
+  }else{
+    h+='<rect x="10" y="30" width="90" height="42" rx="9" fill="#5b21b6"/><text x="55" y="48" text-anchor="middle" font-size="12.5" fill="#fff">果糖</text><text x="55" y="64" text-anchor="middle" font-size="10.5" fill="#e7dcfa">抄小道</text>';
+    h+='<path d="M55,72 L55,105" stroke="#5b21b6" stroke-width="2.5"/>';
+    h+='<rect x="300" y="52" width="260" height="150" rx="12" fill="#fdf1e8" stroke="#c2540a" stroke-dasharray="5 4"/>';
+    h+='<text x="430" y="74" text-anchor="middle" font-size="13.5" fill="#c2540a" font-weight="700">肝内"内部通道"（不触发胰岛素）</text>';
+    let y=90;
+    [[ '果糖激酶/醛缩酶B','绕过 PFK 限速快进快出'],[ '汇入磷酸三糖池','与葡萄糖通路合流'],[ '→ 甘油三酯 / VLDL','过量时 DNL ↑ 肝内脂肪'],[ '→ 尿酸生成 ↑','伴随能量消耗(ATP磷酸耗竭)']].forEach(s=>{
+      h+='<text x="316" y="'+y+'" font-size="12.5" fill="#7a3c06" font-weight="700">'+s[0]+'</text>';
+      h+='<text x="316" y="'+(y+16)+'" font-size="11" fill="#9a6a3a">'+s[1]+'</text>';
+      y+=30;
+    });
+    h+='<path d="M260,128 L300,128" stroke="#c2540a" stroke-width="2.5"/>';
+    h+='<rect x="300" y="212" width="260" height="40" rx="9" fill="#fff" stroke="#15803d" stroke-width="1.6"/>';
+    h+='<text x="314" y="229" font-size="12.5" fill="#15803d" font-weight="700">少量 → 转葡萄糖/糖原（无害区）</text>';
+    h+='<text x="314" y="245" font-size="11" fill="#64748b">水果剂量（15~30g/天）在此区间</text>';
+    h+='<path d="M260,128 L296,232" stroke="#15803d" stroke-width="1.6" stroke-dasharray="4 3"/>';
+    $id('metText').innerHTML='<b>果糖：</b>几乎全进肝，走果糖激酶"小门"，不受能量状态与胰岛素调控。少量可转葡萄糖/糖原；<b>大剂量（含糖饮料级）时涌向脂肪合成与尿酸</b>——这是与葡萄糖代谢后果分岔的关键。';
+  }
+  $id('metSvg').innerHTML=h;
+}
+$id('metGlu').addEventListener('click',()=>metDraw('glu'));
+$id('metFru').addEventListener('click',()=>metDraw('fru'));
+metDraw('glu');
+
+// ================= 4. 代糖档案 =================
+const SW=[
+ {n:'赤藓糖醇',fam:'糖醇',sw:'0.7 倍',kc:'≈ 0 kcal/g',bg:'几乎不升（吸收后原形经尿排出）',note:'耐受性最好的糖醇（大部分不经结肠发酵）。⚠️ 2023 Nature Medicine 观察性研究提示血中水平与心血管事件相关，因果未定，高危人群关注后续研究。'},
+ {n:'木糖醇',fam:'糖醇',sw:'≈ 1 倍',kc:'≈ 2.4 kcal/g',bg:'轻度升血糖（GI≈7~13）',note:'口感最接近蔗糖，但过量有轻泻作用。对狗剧毒——家里有狗注意口香糖。'},
+ {n:'麦芽糖醇',fam:'糖醇',sw:'0.9 倍',kc:'≈ 2.1 kcal/g',bg:'⚠️ GI≈35~52，明显升血糖',note:'常见于"无糖巧克力"。糖尿病人大量食用照样升血糖+容易腹泻——无糖 ≠ 随便吃。'},
+ {n:'阿斯巴甜',fam:'人工合成',sw:'≈ 200 倍',kc:'4 kcal/g 但用量极微≈0',bg:'不升血糖',note:'苯丙酮尿症（PKU）禁用（标注"含苯丙氨酸"）。2023 IARC 列为 2B 类"可能致癌"（证据有限，正常摄入量内 JECFA 维持安全限量不变）。'},
+ {n:'三氯蔗糖',fam:'人工合成',sw:'≈ 600 倍',kc:'≈ 0',bg:'不升血糖',note:'高温下可能分解，不适合长时间烘焙。菌群个体化反应研究（Suez 2022）涉及对象之一，人体证据不一致。'},
+ {n:'安赛蜜',fam:'人工合成',sw:'≈ 200 倍',kc:'≈ 0',bg:'不升血糖',note:'常与阿斯巴甜/三氯蔗糖复配以改善口感，稳定性好。'},
+ {n:'甜叶菊糖苷',fam:'天然提取',sw:'200~300 倍',kc:'≈ 0',bg:'不升血糖',note:'来自甜叶菊叶片，有轻微草本后味。高血压辅助证据较弱，不作疗效宣称。'},
+ {n:'罗汉果甜苷',fam:'天然提取',sw:'≈ 300 倍',kc:'≈ 0',bg:'不升血糖',note:'罗汉果提取，国内传统药食同源背景，后味较干净。'},
+ {n:'阿洛酮糖',fam:'稀有糖',sw:'≈ 0.7 倍',kc:'≈ 0.4 kcal/g',bg:'几乎不升（GI≈0）',note:'天然存在于无花果/葡萄干中的差向异构体，近年多国批准。烘焙上色表现好，是代糖研究的热门新秀。'}
+];
+const swBtns=$id('swBtns');
+SW.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='wbtn'+(i===0?' w-tab active':'');
+  b.textContent=s.n;
+  b.addEventListener('click',()=>{
+    swBtns.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    swShow(i);
+  });
+  swBtns.appendChild(b);
+});
+function swShow(i){
+  const s=SW[i];
+  $id('swDetail').innerHTML='<b>'+s.n+'（'+s.fam+'）</b>甜度：'+s.sw+'　·　热量：'+s.kc+'　·　升血糖：'+s.bg+'<br><span style="font-size:13.5px">'+s.note+'</span>';
+}
+swShow(0);
+
+// ================= 5. 一餐模拟 =================
+let mealOrder='A', mealDrink=true;
+function mealDraw(){
+  $id('ordA').classList.toggle('active',mealOrder==='A');
+  $id('ordB').classList.toggle('active',mealOrder==='B');
+  $id('drkN').classList.toggle('active',!mealDrink);
+  $id('drkY').classList.toggle('active',mealDrink);
+  // 参数
+  let A=55,tp=40,k=2.3, peakExtra=0, desc='';
+  if(mealOrder==='A'){A=58;tp=38;k=2.5;desc='先吃主食：淀粉快速消化，峰又高又早。';}
+  else{A=36;tp=55;k=2.2;desc='先菜肉后主食：纤维+蛋白延缓胃排空，峰降低且后移。';}
+  if(mealDrink){peakExtra=22;desc+=' 含糖饮料叠加一个快速尖峰（液态糖几乎无消化阻力）。';}
+  const BASE2=90;
+  const curve=t=>{
+    let v=BASE2+A*Math.pow(t/tp,k)*Math.exp(k*(1-t/tp));
+    if(mealDrink){const td=15,Ad=peakExtra;v+=Ad*Math.pow(t/td,2.0)*Math.exp(2.0*(1-t/td));}
+    return v;
+  };
+  let peak=0,pt=0;
+  for(let t=0;t<=120;t+=1){const v=curve(t);if(v>peak){peak=v;pt=t;}}
+  let h='';
+  for(let v=100;v<=180;v+=20){h+='<line x1="46" y1="'+GY(v)+'" x2="586" y2="'+GY(v)+'" stroke="#eeeae2"/><text x="8" y="'+(GY(v)+4)+'" font-size="11.5" fill="#94a3ab">'+v+'</text>';}
+  h+='<line x1="46" y1="258" x2="586" y2="258" stroke="#94a3ab" stroke-width="1.5"/>';
+  h+='<line x1="46" y1="20" x2="46" y2="258" stroke="#94a3ab" stroke-width="1.5"/>';
+  h+='<line x1="46" y1="'+GY(90)+'" x2="586" y2="'+GY(90)+'" stroke="#c8d4d2" stroke-dasharray="5 4"/><text x="556" y="'+(GY(90)-6)+'" text-anchor="end" font-size="11" fill="#94a3ab">基线 90</text>';
+  for(let m=0;m<=120;m+=30){h+='<text x="'+GX(m)+'" y="276" text-anchor="middle" font-size="11.5" fill="#64748b">'+m+'分钟</text>';}
+  // 对比参照：always show 先主食无饮料 as dashed reference
+  let dref='';
+  for(let t=0;t<=120;t+=2){dref+=(dref?'L':'M')+GX(t).toFixed(1)+','+GY(BASE2+58*Math.pow(t/38,2.5)*Math.exp(2.5*(1-t/38))).toFixed(1);}
+  h+='<path d="'+dref+'" fill="none" stroke="#b7c4c2" stroke-width="1.8" stroke-dasharray="6 4"/>';
+  let d='';
+  for(let t=0;t<=120;t+=2){d+=(d?'L':'M')+GX(t).toFixed(1)+','+GY(curve(t)).toFixed(1);}
+  h+='<path d="'+d+'" fill="none" stroke="#c2540a" stroke-width="3"/>';
+  h+='<circle cx="'+GX(pt)+'" cy="'+GY(peak)+'" r="6" fill="#c2540a" stroke="#fff" stroke-width="2"/>';
+  h+='<text x="'+(GX(pt)+10)+'" y="'+(GY(peak)-8)+'" font-size="12.5" fill="#c2540a" font-weight="700">峰值 '+Math.round(peak)+' @ '+pt+'分钟</text>';
+  h+='<text x="52" y="32" font-size="12.5" fill="#64748b">血糖 (mg/dL) · 灰色虚线=先吃主食、无饮料的参照</text>';
+  $id('mealSvg').innerHTML=h;
+  $id('mealStat').innerHTML='<b>当前方案：</b>'+desc+'　→　峰值 <b>'+Math.round(peak)+' mg/dL</b>（升高约 <b>'+Math.round(peak-BASE2)+'</b>）';
+}
+$id('ordA').addEventListener('click',()=>{mealOrder='A';mealDraw();});
+$id('ordB').addEventListener('click',()=>{mealOrder='B';mealDraw();});
+$id('drkN').addEventListener('click',()=>{mealDrink=false;mealDraw();});
+$id('drkY').addEventListener('click',()=>{mealDrink=true;mealDraw();});
+mealDraw();
+
+// ================= 自测 =================
+const quizzes=document.querySelectorAll('.quiz');
+let answered=0,score=0;
+quizzes.forEach(q=>{
+  q.querySelectorAll('.opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(q.classList.contains('done'))return;
+      q.classList.add('done');answered++;
+      const ok=btn.dataset.ok==='1';
+      if(ok){score++;btn.classList.add('right');}
+      else{btn.classList.add('wrong');
+        const r=q.querySelector('.opt[data-ok="1"]');if(r)r.classList.add('right');}
+      q.querySelector('.exp').style.display='block';
+    });
+  });
+});
+
+// 侧边栏高亮
+const links=[...document.querySelectorAll('nav.sidebar a')];
+const byId=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(a=>a.classList.remove('active'));
+      const l=byId.get(e.target.id);
+      if(l)l.classList.add('active');
+    }
+  });
+},{rootMargin:'-25% 0px -65% 0px'});
+document.querySelectorAll('main section[id]').forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
